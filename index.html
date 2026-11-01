@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J.A.R.V.I.S.</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">J.A.R.V.I.S</span>
+    <span class="brand-sub">Just A Rather Very Intelligent System</span>
+  </div>
+  <div class="status-cluster">
+    <span id="status-dot" class="status-dot"></span>
+    <span id="status-label" class="status-label">ONLINE</span>
+    <span id="clock" class="clock">00:00:00</span>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="sidebar">
+    <section class="readouts">
+      <div class="readout"><span>DATE</span><b id="readout-date">—</b></div>
+      <div class="readout"><span>UPTIME</span><b id="readout-uptime">00:00:00</b></div>
+      <div class="readout"><span>BATTERY</span><b id="readout-battery">—</b></div>
+      <div class="readout"><span>VOICE</span><b id="readout-voice">ON</b></div>
+      <div class="readout"><span>MIC</span><b id="readout-mic">IDLE</b></div>
+    </section>
+
+    <section class="quick-cmds">
+      <h3>БЫСТРЫЕ КОМАНДЫ</h3>
+      <div class="quick-grid">
+        <button class="quick-btn" data-cmd="время">Время</button>
+        <button class="quick-btn" data-cmd="какая сегодня дата">Дата</button>
+        <button class="quick-btn" data-cmd="какая погода в Москве">Погода</button>
+        <button class="quick-btn" data-cmd="последние новости">Новости</button>
+        <button class="quick-btn" data-cmd="расскажи шутку">Шутка</button>
+      </div>
+    </section>
+
+    <section class="notes">
+      <h3>ЗАМЕТКИ <span id="notes-count">(0)</span></h3>
+      <ul id="notes-list" class="notes-list"></ul>
+    </section>
+
+    <section class="activity">
+      <h3>ЖУРНАЛ</h3>
+      <ul id="activity-log" class="activity-log"></ul>
+    </section>
+  </aside>
+
+  <section class="core">
+    <div class="reactor-wrap">
+      <div id="reactor" class="reactor">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+        <div class="core-dot"></div>
+      </div>
+      <div id="waveform" class="waveform">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div id="jarvis-output" class="jarvis-output">
+      <div class="sys-line">&gt; Интерфейс инициализирован. Скажите «привет» или введите команду.</div>
+    </div>
+
+    <div class="input-bar">
+      <button id="mic-btn" class="mic-btn" title="Голосовой ввод">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-5 5.92V19h3v2H8v-2h3v-2.08A6 6 0 0 1 6 11h2a4 4 0 0 0 8 0h2z"/></svg>
+      </button>
+      <input id="user-input" class="user-input" type="text" placeholder="Введите команду, сэр..." autocomplete="off" />
+      <button id="send-btn" class="send-btn" title="Отправить">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+      </button>
+    </div>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
