@@ -1,90 +1,129 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>J.A.R.V.I.S.</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>J.A.R.V.I.S.</title>
 </head>
-<body>
+<body style="margin: 0; padding: 0; background-color: #0a0e17; color: #d7e6ff; font-family: monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden;">
 
-<header class="topbar">
-  <div class="brand">
-    <span class="brand-mark">J.A.R.V.I.S</span>
-    <span class="brand-sub">Just A Rather Very Intelligent System</span>
-  </div>
-  <div class="status-cluster">
-    <span id="status-dot" class="status-dot"></span>
-    <span id="status-label" class="status-label">ONLINE</span>
-    <span id="clock" class="clock">00:00:00</span>
-  </div>
-</header>
-
-<main class="layout">
-  <aside class="sidebar">
-    <section class="readouts">
-      <div class="readout"><span>DATE</span><b id="readout-date">—</b></div>
-      <div class="readout"><span>UPTIME</span><b id="readout-uptime">00:00:00</b></div>
-      <div class="readout"><span>BATTERY</span><b id="readout-battery">—</b></div>
-      <div class="readout"><span>VOICE</span><b id="readout-voice">ON</b></div>
-      <div class="readout"><span>MIC</span><b id="readout-mic">IDLE</b></div>
-    </section>
-
-    <section class="quick-cmds">
-      <h3>БЫСТРЫЕ КОМАНДЫ</h3>
-      <div class="quick-grid">
-        <button class="quick-btn" data-cmd="время">Время</button>
-        <button class="quick-btn" data-cmd="какая сегодня дата">Дата</button>
-        <button class="quick-btn" data-cmd="какая погода в Москве">Погода</button>
-        <button class="quick-btn" data-cmd="последние новости">Новости</button>
-        <button class="quick-btn" data-cmd="расскажи шутку">Шутка</button>
-      </div>
-    </section>
-
-    <section class="notes">
-      <h3>ЗАМЕТКИ <span id="notes-count">(0)</span></h3>
-      <ul id="notes-list" class="notes-list"></ul>
-    </section>
-
-    <section class="activity">
-      <h3>ЖУРНАЛ</h3>
-      <ul id="activity-log" class="activity-log"></ul>
-    </section>
-  </aside>
-
-  <section class="core">
-    <div class="reactor-wrap">
-      <div id="reactor" class="reactor">
-        <div class="ring ring-1"></div>
-        <div class="ring ring-2"></div>
-        <div class="ring ring-3"></div>
-        <div class="core-dot"></div>
-      </div>
-      <div id="waveform" class="waveform">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
+    <!-- Шапка -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background-color: #0f1522; border-bottom: 1px solid #00ffff;">
+        <div style="color: #00ffff; font-size: 20px; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px #00ffff;">J.A.R.V.I.S</div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 10px; height: 10px; background-color: #00ffff; border-radius: 50%; box-shadow: 0 0 10px #00ffff;"></div>
+            <div style="color: #00ffff; font-size: 12px;">ONLINE</div>
+        </div>
     </div>
 
-    <div id="jarvis-output" class="jarvis-output">
-      <div class="sys-line">&gt; Интерфейс инициализирован. Скажите «привет» или введите команду.</div>
+    <!-- Экран (Реактор и Чат) -->
+    <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+        
+        <!-- Реактор -->
+        <div style="display: flex; justify-content: center; align-items: center; margin: 20px 0;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; border: 2px dashed #00ffff; display: flex; justify-content: center; align-items: center; animation: spin 10s linear infinite;">
+                <div style="width: 40px; height: 40px; background-color: #00ffff; border-radius: 50%; box-shadow: 0 0 30px #00ffff;"></div>
+            </div>
+        </div>
+
+        <!-- Чат -->
+        <div id="chat" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+            <div style="align-self: flex-start; border-left: 2px solid #00ffff; padding-left: 10px; color: #00ffff; font-size: 15px;">
+                &gt; Системы в норме. Я готов к работе, сэр.
+            </div>
+        </div>
+
     </div>
 
-    <div class="input-bar">
-      <button id="mic-btn" class="mic-btn" title="Голосовой ввод">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 15a4 4 0 0 0 4-4V6a4 4 0 1 0-8 0v5a4 4 0 0 0 4 4zm6-4a6 6 0 0 1-5 5.92V19h3v2H8v-2h3v-2.08A6 6 0 0 1 6 11h2a4 4 0 0 0 8 0h2z"/></svg>
-      </button>
-      <input id="user-input" class="user-input" type="text" placeholder="Введите команду, сэр..." autocomplete="off" />
-      <button id="send-btn" class="send-btn" title="Отправить">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-      </button>
+    <!-- Поле ввода -->
+    <div style="display: flex; gap: 10px; padding: 15px; background-color: #0f1522; border-top: 1px solid #00ffff;">
+        <button id="mic-btn" style="background: transparent; border: 1px solid #00ffff; color: #00ffff; padding: 0 15px; font-size: 18px;">🎤</button>
+        <input id="user-input" type="text" placeholder="Введите команду..." style="flex: 1; background: #0a0e17; border: 1px solid #00ffff; color: #d7e6ff; padding: 12px; font-family: monospace; font-size: 16px; outline: none;">
+        <button id="send-btn" style="background: transparent; border: 1px solid #00ffff; color: #00ffff; padding: 0 15px; font-size: 18px;">➤</button>
     </div>
-  </section>
-</main>
 
-<script src="script.js"></script>
+    <style>
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+
+    <script>
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const micBtn = document.getElementById('mic-btn');
+        const API_URL = 'https://jarvis-bot-0k1j.onrender.com/api/chat';
+        
+        let webHistory = [];
+        let globalAudio = new Audio();
+
+        function addMessage(text, isUser, audioBase64 = null) {
+            const div = document.createElement('div');
+            if (isUser) {
+                div.style.cssText = 'align-self: flex-end; background: rgba(0, 255, 255, 0.1); border: 1px solid #00ffff; padding: 10px; border-radius: 8px; max-width: 85%; color: #fff; font-size: 15px;';
+            } else {
+                div.style.cssText = 'align-self: flex-start; border-left: 2px solid #00ffff; padding-left: 10px; max-width: 85%; color: #00ffff; font-size: 15px;';
+            }
+            div.textContent = text;
+            chat.appendChild(div);
+            chat.scrollTop = chat.scrollHeight;
+
+            if (!isUser && audioBase64) {
+                globalAudio.src = `data:audio/mp3;base64,${audioBase64}`;
+                globalAudio.play().catch(e => console.log('Аудио заблокировано:', e));
+            }
+        }
+
+        async function sendMessage() {
+            const text = input.value.trim();
+            if (!text) return;
+
+            addMessage(text, true);
+            input.value = '';
+            
+            const loading = document.createElement('div');
+            loading.style.cssText = 'align-self: flex-start; border-left: 2px solid #00ffff; padding-left: 10px; color: #00ffff; font-size: 15px;';
+            loading.textContent = '...';
+            chat.appendChild(loading);
+            chat.scrollTop = chat.scrollHeight;
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, history: webHistory })
+                });
+                const data = await res.json();
+                
+                chat.removeChild(loading);
+                addMessage(data.response, false, data.audio);
+
+                webHistory.push({ role: 'user', content: text });
+                webHistory.push({ role: 'assistant', content: data.response });
+                if (webHistory.length > 10) webHistory.splice(0, 2);
+                
+            } catch (e) {
+                chat.removeChild(loading);
+                addMessage('Связь с сервером потеряна.', false);
+            }
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ru-RU';
+            recognition.onstart = () => { micBtn.style.background = '#00ffff'; micBtn.style.color = '#000'; };
+            recognition.onend = () => { micBtn.style.background = 'transparent'; micBtn.style.color = '#00ffff'; };
+            recognition.onresult = (e) => {
+                input.value = e.results[0][0].transcript;
+                sendMessage();
+            };
+            micBtn.addEventListener('click', () => recognition.start());
+        } else {
+            micBtn.style.display = 'none';
+        }
+    </script>
 </body>
 </html>
