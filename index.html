@@ -3,153 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>J.A.R.V.I.S. IronCore</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <style>
-        /* Базовые настройки */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            background-color: #050505;
-            /* Сетка на фоне */
-            background-image: 
-                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            color: #e0f7fa;
-            font-family: 'Share Tech Mono', monospace;
-            height: 100vh;
-            height: 100dvh; /* Для мобильных браузеров */
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* Шапка */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-            background: #050505;
-            z-index: 10;
-        }
-        .logo { font-size: 18px; letter-spacing: 3px; color: #00ffff; font-weight: bold; }
-        .status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #00ffff; }
-        .dot { width: 8px; height: 8px; background: #00ffff; border-radius: 50%; box-shadow: 0 0 10px #00ffff; }
-
-        /* Экран чата */
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Реактор */
-        .reactor-wrap {
-            display: flex; justify-content: center; align-items: center;
-            padding: 20px 0;
-        }
-        .reactor {
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            border: 2px solid #00ffff;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.3);
-        }
-        .core-dot {
-            width: 30px; height: 30px;
-            background: #00ffff;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #00ffff;
-        }
-
-        /* Сообщения */
-        #chat {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .msg {
-            padding: 10px 14px;
-            border-radius: 4px;
-            max-width: 85%;
-            font-size: 15px;
-            line-height: 1.4;
-        }
-        .msg.user {
-            align-self: flex-end;
-            background: rgba(0, 255, 255, 0.1);
-            border-right: 2px solid #00ffff;
-            color: #ffffff;
-        }
-        .msg.jarvis {
-            align-self: flex-start;
-            border-left: 2px solid #00ffff;
-            color: #00ffff;
-        }
-
-        /* Поле ввода */
-        .input-area {
-            display: flex;
-            gap: 8px;
-            padding: 12px;
-            background: #050505;
-            border-top: 1px solid rgba(0, 255, 255, 0.2);
-        }
-        input {
-            flex: 1;
-            background: #000000;
-            border: 1px solid #00ffff;
-            color: #ffffff;
-            padding: 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 16px; /* Важно: 16px предотвращает зум на iPhone */
-            outline: none;
-            border-radius: 4px;
-        }
-        button {
-            background: #000000;
-            border: 1px solid #00ffff;
-            color: #00ffff;
-            padding: 0 15px;
-            font-size: 18px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:active { background: #00ffff; color: #000000; }
-    </style>
+    <title>J.A.R.V.I.S.</title>
 </head>
-<body>
+<!-- Все стили встроены прямо в теги ниже -->
+<body style="margin: 0; padding: 0; background-color: #050505; color: #00ffff; font-family: monospace; display: flex; flex-direction: column; height: 100vh; overflow: hidden; background-image: linear-gradient(rgba(0,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.05) 1px, transparent 1px); background-size: 30px 30px;">
 
-    <header>
-        <div class="logo">J.A.R.V.I.S</div>
-        <div class="status">
-            <div class="dot"></div>
-            <span>ONLINE</span>
+    <!-- Шапка -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background-color: #000; border-bottom: 1px solid #00ffff;">
+        <div style="font-size: 18px; font-weight: bold; letter-spacing: 2px; color: #00ffff;">J.A.R.V.I.S</div>
+        <div style="display: flex; align-items: center; gap: 8px; color: #00ffff; font-size: 12px;">
+            <div style="width: 8px; height: 8px; background-color: #00ffff; border-radius: 50%; box-shadow: 0 0 10px #00ffff;"></div>
+            ONLINE
         </div>
     </header>
 
-    <div class="chat-container">
-        <div class="reactor-wrap">
-            <div class="reactor">
-                <div class="core-dot"></div>
-            </div>
-        </div>
-
-        <div id="chat">
-            <div class="msg jarvis">&gt; Системы в норме. Я готов к работе, сэр.</div>
+    <!-- Реактор -->
+    <div style="display: flex; justify-content: center; align-items: center; padding: 20px 0;">
+        <div style="width: 80px; height: 80px; border: 2px solid #00ffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(0,255,255,0.5), inset 0 0 15px rgba(0,255,255,0.5);">
+            <div style="width: 20px; height: 20px; background-color: #00ffff; border-radius: 50%; box-shadow: 0 0 20px #00ffff;"></div>
         </div>
     </div>
 
-    <div class="input-area">
-        <button id="mic-btn">🎤</button>
-        <input id="user-input" type="text" placeholder="Введите команду..." autocomplete="off">
-        <button id="send-btn">➤</button>
+    <!-- Чат -->
+    <div id="chat" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+        <div style="align-self: flex-start; border-left: 2px solid #00ffff; padding-left: 10px; color: #00ffff; font-size: 15px;">
+            &gt; Системы в норме. Я готов к работе, сэр.
+        </div>
+    </div>
+
+    <!-- Поле ввода -->
+    <div style="display: flex; gap: 10px; padding: 10px; background-color: #000; border-top: 1px solid #00ffff;">
+        <button id="mic-btn" style="background: transparent; border: 1px solid #00ffff; color: #00ffff; padding: 0 15px; font-size: 18px;">🎤</button>
+        <input id="user-input" type="text" placeholder="Введите команду..." style="flex: 1; background-color: #000; border: 1px solid #00ffff; color: #fff; padding: 10px; font-family: monospace; font-size: 16px; outline: none;">
+        <button id="send-btn" style="background: transparent; border: 1px solid #00ffff; color: #00ffff; padding: 0 15px; font-size: 18px;">➤</button>
     </div>
 
     <script>
@@ -164,7 +50,11 @@
 
         function addMessage(text, isUser, audioBase64 = null) {
             const div = document.createElement('div');
-            div.className = isUser ? 'msg user' : 'msg jarvis';
+            if (isUser) {
+                div.style.cssText = 'align-self: flex-end; background: rgba(0,255,255,0.1); border-right: 2px solid #00ffff; padding: 10px; color: #fff; max-width: 85%; font-size: 15px; border-radius: 4px;';
+            } else {
+                div.style.cssText = 'align-self: flex-start; border-left: 2px solid #00ffff; padding-left: 10px; color: #00ffff; max-width: 85%; font-size: 15px;';
+            }
             div.textContent = text;
             chat.appendChild(div);
             chat.scrollTop = chat.scrollHeight;
@@ -183,7 +73,7 @@
             input.value = '';
             
             const loading = document.createElement('div');
-            loading.className = 'msg jarvis';
+            loading.style.cssText = 'align-self: flex-start; border-left: 2px solid #00ffff; padding-left: 10px; color: #00ffff; font-size: 15px;';
             loading.textContent = '...';
             chat.appendChild(loading);
             chat.scrollTop = chat.scrollHeight;
@@ -217,7 +107,7 @@
             const recognition = new SpeechRecognition();
             recognition.lang = 'ru-RU';
             recognition.onstart = () => { micBtn.style.background = '#00ffff'; micBtn.style.color = '#000'; };
-            recognition.onend = () => { micBtn.style.background = '#000'; micBtn.style.color = '#00ffff'; };
+            recognition.onend = () => { micBtn.style.background = 'transparent'; micBtn.style.color = '#00ffff'; };
             recognition.onresult = (e) => {
                 input.value = e.results[0][0].transcript;
                 sendMessage();
