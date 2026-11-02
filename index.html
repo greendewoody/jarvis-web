@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>J.A.R.V.I.S.</title>
+  <style>
+    body {
+      background-color: #0a0e17 !important;
+      color: #00ffff !important;
+      font-family: monospace !important;
+      margin: 0; padding: 20px;
+      height: 100vh; display: flex; flex-direction: column;
+      box-sizing: border-box;
+    }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #00ffff; padding-bottom: 15px;
+    }
+    .title { font-size: 22px; font-weight: bold; letter-spacing: 2px; }
+    .status { font-size: 14px; }
+    
+    .reactor {
+      width: 100px; height: 100px; border: 2px solid #00ffff; border-radius: 50%;
+      margin: 30px auto; display: flex; justify-content: center; align-items: center;
+      box-shadow: 0 0 20px #00ffff;
+    }
+    .dot { width: 30px; height: 30px; background-color: #00ffff; border-radius: 50%; box-shadow: 0 0 15px #00ffff; }
+
+    #chat {
+      flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
+      border: 1px solid #005555; padding: 15px; margin-bottom: 15px;
+      background-color: rgba(0, 255, 255, 0.05);
+    }
+    .msg { padding: 10px; max-width: 85%; line-height: 1.4; border-radius: 5px; }
+    .msg.user { align-self: flex-end; background: #003333; color: #fff; border-right: 2px solid #00ffff; }
+    .msg.jarvis { align-self: flex-start; border-left: 2px solid #00ffff; color: #00ffff; }
+
+    .input-area { display: flex; gap: 10px; }
+    input {
+      flex: 1; background: #000; border: 1px solid #00ffff; color: #fff;
+      padding: 12px; font-family: monospace; font-size: 16px; outline: none;
+    }
+    button {
+      background: #000; border: 1px solid #00ffff; color: #00ffff;
+      padding: 0 20px; font-size: 18px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title">J.A.R.V.I.S</div>
+    <div class="status">ONLINE</div>
+  </header>
+
+  <div class="reactor"><div class="dot"></div></div>
+
+  <div id="chat">
+    <div class="msg jarvis">&gt; Системы в норме. Я готов к работе, сэр.</div>
+  </div>
+
+  <div class="input-area">
+    <button id="mic-btn">🎤</button>
+    <input id="user-input" type="text" placeholder="Введите команду..." autocomplete="off">
+    <button id="send-btn">➤</button>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const micBtn = document.getElementById('mic-btn');
+    const API_URL = 'https://jarvis-bot-0k1j.onrender.com/api/voice';
+    
+    let webHistory = [];
+    let globalAudio = new Audio();
+
+    function addMessage(text, isUser, audioBase64 = null) {
+      const div = document.createElement('div');
+      div.className = isUser ? 'msg user' : 'msg jarvis';
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      if (!isUser && audioBase64) {
+        globalAudio.src = `data:audio/mp3;base64,${audioBase64}`;
+        globalAudio.play().catch(e => console.log('Audio blocked'));
+      }
+    }
+
+    async function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, true);
+      input.value = '';
+      
+      const loading = document.createElement('div');
+      loading.className = 'msg jarvis';
+      loading.textContent = '...';
+      chat.appendChild(loading);
+      chat.scrollTop = chat.scrollHeight;
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, history: webHistory })
+        });
+        const data = await res.json();
+        
+        chat.removeChild(loading);
+        addMessage(data.response, false, data.audio);
+
+        webHistory.push({ role: 'user', content: text });
+        webHistory.push({ role: 'assistant', content: data.response });
+        if (webHistory.length > 10) webHistory.splice(0, 2);
+      } catch (e) {
+        chat.removeChild(loading);
+        addMessage('Связь с сервером потеряна.', false);
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'ru-RU';
+      recognition.onresult = (e) => { input.value = e.results[0][0].transcript; sendMessage(); };
+      micBtn.addEventListener('click', () => recognition.start());
+    } else { micBtn.style.display = 'none'; }
+  </script>
+</body>
+</html>
